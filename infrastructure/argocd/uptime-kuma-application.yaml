@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/omkar619-dev/homelab.git
+    repoURL: https://github.com/omkar619-dev/omkar-homelab-gitops.git
     targetRevision: main
     path: apps/uptime-kuma
   destination:
