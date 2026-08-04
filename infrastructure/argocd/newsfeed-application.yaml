@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: newsfeed
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: newsfeed
+  sources:
+    - repoURL: https://github.com/omkar619-dev/news-feed-go.git
+      targetRevision: main
+      path: deploy/helm/newsfeed
+      helm:
+        valuesObject:
+          ollamaURL: http://192.168.29.30:11434
+          secrets:
+            create: false
+    - repoURL: https://github.com/omkar619-dev/omkar-homelab-gitops.git
+      targetRevision: main
+      path: apps/newsfeed
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
