@@ -7,6 +7,7 @@ spec:
   project: homelab
   destination:
     server: https://kubernetes.default.svc
+    namespace: default
   source:
     repoURL: https://github.com/omkar619-dev/omkar-homelab-gitops.git
     targetRevision: main
