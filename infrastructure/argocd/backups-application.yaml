@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backups
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: newsfeed
+  source:
+    repoURL: https://github.com/omkar619-dev/omkar-homelab-gitops.git
+    targetRevision: main
+    path: infrastructure/backups
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
