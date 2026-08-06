@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: homelab
+  namespace: argocd
+spec:
+  description: Homelab platform services and applications
+  sourceRepos:
+    - https://github.com/omkar619-dev/omkar-homelab-gitops.git
+    - https://github.com/omkar619-dev/news-feed-go.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: argocd
+    - server: https://kubernetes.default.svc
+      namespace: minio
+    - server: https://kubernetes.default.svc
+      namespace: newsfeed
+    - server: https://kubernetes.default.svc
+      namespace: uptime-kuma
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+    - group: ""
+      kind: PersistentVolume
+    - group: storage.k8s.io
+      kind: StorageClass
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
