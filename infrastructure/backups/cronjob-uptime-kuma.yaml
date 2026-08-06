@@ -17,12 +17,15 @@ spec:
           restartPolicy: Never
           containers:
             - name: backup
-              image: minio/mc:latest
+              image: alpine:3.20
               command:
                 - sh
                 - -c
                 - |
                   set -e
+                  apk add --no-cache curl
+                  curl -fsSL -o /usr/local/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
+                  chmod +x /usr/local/bin/mc
                   TS=$(date +%Y%m%d-%H%M%S)
                   tar czf /tmp/uptime-kuma-$TS.tar.gz -C /data .
                   mc alias set bk http://minio.minio.svc.cluster.local:9000 "$ACCESS_KEY" "$SECRET_KEY"
