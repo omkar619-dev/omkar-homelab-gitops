@@ -4,7 +4,7 @@ metadata:
   name: backups
   namespace: argocd
 spec:
-  project: default
+  project: homelab
   destination:
     server: https://kubernetes.default.svc
     namespace: newsfeed

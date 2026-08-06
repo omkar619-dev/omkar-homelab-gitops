@@ -4,7 +4,7 @@ metadata:
   name: uptime-kuma
   namespace: argocd
 spec:
-  project: default
+  project: homelab
   source:
     repoURL: https://github.com/omkar619-dev/omkar-homelab-gitops.git
     targetRevision: main

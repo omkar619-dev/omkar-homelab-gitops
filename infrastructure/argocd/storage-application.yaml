@@ -4,7 +4,7 @@ metadata:
   name: storage
   namespace: argocd
 spec:
-  project: default
+  project: homelab
   destination:
     server: https://kubernetes.default.svc
   source:
