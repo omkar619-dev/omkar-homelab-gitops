@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: uptime-kuma-backup
+  namespace: uptime-kuma
+spec:
+  schedule: "30 21 * * *"
+  timeZone: "Asia/Kolkata"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: minio/mc:latest
+              command:
+                - sh
+                - -c
+                - |
+                  set -e
+                  TS=$(date +%Y%m%d-%H%M%S)
+                  tar czf /tmp/uptime-kuma-$TS.tar.gz -C /data .
+                  mc alias set bk http://minio.minio.svc.cluster.local:9000 "$ACCESS_KEY" "$SECRET_KEY"
+                  mc cp /tmp/uptime-kuma-$TS.tar.gz bk/backups/uptime-kuma/
+                  mc ls bk/backups/uptime-kuma/
+              env:
+                - name: ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef: { name: minio-backup, key: accessKey }
+                - name: SECRET_KEY
+                  valueFrom:
+                    secretKeyRef: { name: minio-backup, key: secretKey }
+              volumeMounts:
+                - { name: data, mountPath: /data, readOnly: true }
+          volumes:
+            - name: data
+              persistentVolumeClaim:
+                claimName: uptime-kuma-data
