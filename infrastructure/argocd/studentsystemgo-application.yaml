@@ -14,6 +14,8 @@ spec:
       targetRevision: main
       path: deploy/helm/studentsystemgo
       helm:
+      helm:
+        releaseName: ssg
         valueFiles:
           - $values/apps/studentsystemgo/values.yaml
     # This repo: referenced above as $values, and applied for the SealedSecrets.
