@@ -1,0 +1,14 @@
+# Values overlay for the StudentSystemGo Helm chart.
+# The chart itself lives in the app repo; this file holds the bits that
+# differ under GitOps, and is the file CI rewrites on every push to main.
+
+image:
+  repository: ghcr.io/omkar619-dev/studentsystemgo
+  tag: sha-a75ea2c
+  pullPolicy: IfNotPresent
+
+# The chart renders its own Secrets by default. Under GitOps the
+# SealedSecrets in this directory supply them instead, so no plaintext
+# reaches Git and the CloudFront key stops being regenerated per render.
+secrets:
+  create: false

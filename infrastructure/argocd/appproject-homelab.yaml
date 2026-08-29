@@ -6,9 +6,12 @@ metadata:
 spec:
   description: Homelab platform services and applications
   sourceRepos:
+    - https://github.com/omkar619-dev/StudentSystemGo.git
     - https://github.com/omkar619-dev/omkar-homelab-gitops.git
     - https://github.com/omkar619-dev/news-feed-go.git
   destinations:
+    - server: https://kubernetes.default.svc
+      namespace: studentsystemgo
     - server: https://kubernetes.default.svc
       namespace: argocd
     - server: https://kubernetes.default.svc

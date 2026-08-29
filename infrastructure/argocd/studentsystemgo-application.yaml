@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: studentsystemgo
+  namespace: argocd
+spec:
+  project: homelab
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: studentsystemgo
+  sources:
+    # The Helm chart, straight from the app repo.
+    - repoURL: https://github.com/omkar619-dev/StudentSystemGo.git
+      targetRevision: main
+      path: deploy/helm/studentsystemgo
+      helm:
+        valueFiles:
+          - $values/apps/studentsystemgo/values.yaml
+    # This repo: referenced above as $values, and applied for the SealedSecrets.
+    - repoURL: https://github.com/omkar619-dev/omkar-homelab-gitops.git
+      targetRevision: main
+      ref: values
+      path: apps/studentsystemgo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
