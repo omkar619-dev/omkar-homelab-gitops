@@ -4,7 +4,7 @@
 
 image:
   repository: ghcr.io/omkar619-dev/studentsystemgo
-  tag: sha-a75ea2c
+  tag: sha-0838c8b
   pullPolicy: IfNotPresent
 
 # The chart renders its own Secrets by default. Under GitOps the
